@@ -123,10 +123,18 @@ namespace Platformer.Mechanics
                 }
             }
 
-            if (move.x > 0.01f)
+            if (move.x > 0.01f) 
+            {
                 spriteRenderer.flipX = false;
-            else if (move.x < -0.01f)
+                firePoint.transform.rotation = Quaternion.Euler(0,0,90);
+            }
+                
+            else if (move.x < -0.01f) 
+            {
                 spriteRenderer.flipX = true;
+                firePoint.transform.rotation = Quaternion.Euler(0,0,-90);
+            }
+                
 
             animator.SetBool("grounded", IsGrounded);
             animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
@@ -147,15 +155,16 @@ namespace Platformer.Mechanics
         // Bullet Function
 
         public GameObject bulletPrefab;
-        public Transform firePoint; // Point from where bullets will be fired
+        public Transform firePoint; 
 
         void Shoot()
-        {
-            // Calculate the direction based on the firePoint's facing direction
+        {   
+            Transform firePoint = this.firePoint;
             Vector2 shootingDirection = firePoint.right;
 
+
             // Instantiate the bullet
-            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation );
 
             // Initialize the bullet with the direction
             bullet.GetComponent<BulletController>().Initialize(shootingDirection);
